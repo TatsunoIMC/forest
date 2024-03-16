@@ -1,0 +1,58 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: #333;
+  background-color: #f4f4f4;
+}
+
+a {
+  text-decoration: none;
+  color: #333;
+}
+
+ul {
+  list-style: none;
+}
+
+.logo {
+  width: 90%;
+  max-width: 360px;
+  margin: 20px 0;
+}
+
+header .navigation__section_4a530001 {
+  border: 2px solid #555;
+  border-radius: 5px;
+  width: -moz-fit-content;
+  width: fit-content;
+  margin-left: 1rem;
+  background-color: #f4f4f4;
+}
+header form .searchBox {
+  padding: 3px;
+  width: 80%;
+  height: 2rem;
+  max-width: 560px;
+  border: none;
+  padding: 0 1rem;
+  background-color: #f4f4f4;
+  font-size: 1rem;
+}
+header form .searchBox:focus {
+  outline: none;
+}
+header form .searchButton {
+  width: 2rem;
+  height: 2rem;
+  max-width: 120px;
+  border: none;
+  background-color: #f4f4f4;
+  cursor: pointer;
+}
