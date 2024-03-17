@@ -21,17 +21,26 @@ ul {
   list-style: none;
 }
 
-.logo {
+header {
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #a0a0a0;
+  padding: 1rem;
+  align-items: center;
+}
+header .logo {
+  display: inline-flex;
   width: 90%;
   max-width: 360px;
-  margin: 20px 0;
 }
-
 header .navigation__section_4a530001 {
+  display: inline-flex;
   border: 2px solid #555;
   border-radius: 5px;
   width: -moz-fit-content;
   width: fit-content;
+  height: -moz-fit-content;
+  height: fit-content;
   margin-left: 1rem;
   background-color: #f4f4f4;
 }
@@ -55,4 +64,23 @@ header form .searchButton {
   border: none;
   background-color: #f4f4f4;
   cursor: pointer;
+}
+
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  background-color: #ddd;
+}
+nav .nav__links {
+  display: flex;
+  margin-left: auto;
+  width: 60%;
+  max-width: 360px;
+}
+nav .nav__links .nav__link {
+  margin: 0 1rem;
+  font-size: 1.1rem;
+  font-weight: 600;
 }
