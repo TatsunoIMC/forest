@@ -36,10 +36,7 @@ header .logo {
   font-size: 1.2rem;
   width: 100%;
 }
-.panel__info__form form .input__num {
-  text-align: right;
-}
-.panel__info__form form .button__submit {
+.panel__info__form .button__submit {
   font-size: 1.2rem;
   background-color: #333;
   color: #fff;
@@ -49,6 +46,6 @@ header .logo {
   cursor: pointer;
   margin-top: 1rem;
 }
-.panel__info__form form .button__submit:hover {
+.panel__info__form .button__submit:hover {
   background-color: #4ac97b;
 }

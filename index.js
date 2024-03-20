@@ -1,85 +1,47 @@
+const express = require('express');
+const multer = require('multer');
 const https = require('https');
 const fs = require('fs');
+const path = require('path');
+const crypto = require("crypto");
+const app = express();
+let ID = -1;
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, 'public/cache/')
+    },
+    filename: function (req, file, cb) {
+        ID = crypto.randomUUID();
+        cb(null, ID + '.' + file.originalname.split('.').pop())
+    }
+})
+const upload = multer({ storage: storage })
 
 const port = 443;
 
-const options = {
-    key: fs.readFileSync('./encrypt/key.pem'),
-    cert: fs.readFileSync('./encrypt/cert.pem')
-};
-const allowedPaths = ['/api/'];
-const server = https.createServer(options, (req, res) => {
-    const { url, method } = req;
-    const ip = getIP(req);
-    // log the request
-    fs.writeFileSync('console.log', fs.readFileSync('console.log', 'UTF-8') + `\n${ip} ${method} ${url}`, 'UTF-8');
-
-    if (allowedPaths.every(path => url == path)) {// check if the url is allowed
-        if (method === 'GET') {
-            res.writeHead(404);
-            res.end('Not Found');
-        }
-        else if (method === 'POST') {
-            res.writeHead(403);
-            res.end('Forbidden');
-        }
-        else {
-            res.writeHead(405);
-            res.end('Method Not Allowed');
-        }
-        return;
-    }
-
-    if (method === 'POST') {// handle post request
-        let body = '';
-        req.on('data', chunk => {
-            body += chunk.toString();
-        });
-        req.on('end', () => {
-            res.writeHead(200);
-            res.end(handlePostRequest(body));
-            res.write()
-        });
-    }
-    else if (method === 'OPTIONS') {// handle preflight request
-        res.writeHead(200);
-        res.end();
-    }
-    else {
-        res.writeHead(404);
-        res.end('Not Found');
-    }
+// const options = {
+//     key: fs.readFileSync('./encrypt/key.pem'),
+//     cert: fs.readFileSync('./encrypt/cert.pem')
+// };
+const server = https.createServer(app);
+app.get("*", (req, res) => {
+    let url = req.originalUrl;
+    console.log(url);
+    if (!url.startsWith('/forest/')) return res.status(403).send('Forbidden');
+    url = url.substring(7);
+    if (url.endsWith('/')) url += "index.html";
+    res.sendFile(path.join(__dirname, 'assets', url));
 });
-
-function getIP(req) {
-    if (req.headers['x-forwarded-for']) {
-        console.log("typeA");
-        return req.headers['x-forwarded-for'];
-    }
-    if (req.connection && req.connection.remoteAddress) {
-        console.log("typeB");
-        return req.connection.remoteAddress;
-    }
-    if (req.connection.socket && req.connection.socket.remoteAddress) {
-        console.log("typeC");
-        return req.connection.socket.remoteAddress;
-    }
-    if (req.socket && req.socket.remoteAddress) {
-        console.log("typeD");
-        return req.socket.remoteAddress;
-    }
-    return '0.0.0.0';
-};
-
-function handlePostRequest(body) {
-    let data = JSON.parse(body);
-    // John add merchandise to database
-    if (data.name === 'John') {
-        fs.writeFileSync(`./database/${data.merchandise}.json`, JSON.stringify(data), 'UTF-8');
-        // TODO: purchase statement
-    }
-}
-
-server.listen(port, () => {
-    console.log(`server is listening on ${port}`);
+app.post('/forest/add/', upload.single('image'), (req, res) => {
+    let equipmentData = req.body;
+    fs.writeFileSync(`public/data/${ID}.json`, JSON.stringify(equipmentData));
+    res.send(
+        JSON.stringify({
+            status: 'success',
+            equipmentId: ID
+        })
+    )
+});
+app.listen(port, () => {
+    console.log(`Server is running on port ${port}`);
 });

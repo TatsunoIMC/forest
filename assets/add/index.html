@@ -17,42 +17,43 @@
     </header>
     <main>
         <div class="panel__info__form">
-            <form action="">
+            <form action="" id="addEquipmentForm">
                 <div>
                     <label for="name">商品名</label>
-                    <input type="text">
+                    <input type="text" name="name" required>
                 </div>
                 <div>
                     <label for="stock">在庫の個数</label>
-                    <input type="text" name="stock" class="input__num" value="個">
+                    <input type="number" name="stock" value="1" required>
                 </div>
                 <div>
                     <label for="price">購入価格</label>
-                    <input type="text" name="price" class="input__num" value="円">
+                    <input type="number" name="price" required>
                 </div>
                 <div>
                     <label for="manager">担当者</label>
-                    <input type="text" name="maneger">
+                    <input type="text" name="maneger" required>
                 </div>
                 <div>
                     <label for="place">保管場所</label>
-                    <input type="text" name="place">
+                    <input type="text" name="place" required>
                 </div>
                 <div>
                     <label for="time">購入日時</label>
-                    <input type="date" name="time">
+                    <input type="date" name="time" required>
                 </div>
                 <div>
                     <label for="picture">画像情報</label>
-                    <input type="file">
+                    <input type="file" name="image" required>
                 </div>
-                <button onclick="addEquipment()" class="button__submit">追加</button>
             </form>
+            <button onclick="addEquipment()" class="button__submit">追加</button>
         </div>
+        <error id="error"></error>
     </main>
     <footer>
     </footer>
-    <script src="./index.js"></script>
+    <script src="../script/add.js"></script>
 </body>
 
 </html>
