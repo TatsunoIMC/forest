@@ -19,11 +19,11 @@ const upload = multer({ storage: storage })
 
 const port = 443;
 
-// const options = {
-//     key: fs.readFileSync('./encrypt/key.pem'),
-//     cert: fs.readFileSync('./encrypt/cert.pem')
-// };
-const server = https.createServer(app);
+const options = {
+    key: fs.readFileSync('./encrypt/key.pem'),
+    cert: fs.readFileSync('./encrypt/cert.pem')
+};
+const server = https.createServer(options, app);
 app.get("*", (req, res) => {
     let url = req.originalUrl;
     console.log(url);
@@ -42,6 +42,7 @@ app.post('/forest/add/', upload.single('image'), (req, res) => {
         })
     )
 });
-app.listen(port, () => {
-    console.log(`Server is running on port ${port}`);
+
+server.listen(port, () => {
+    console.log(`Server started on port ${port}`);
 });
